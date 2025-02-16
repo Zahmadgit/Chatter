@@ -9,7 +9,6 @@ const store = configureStore({
   reducer: rootReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
-      thunk: false,
       serializableCheck: {
         // Ignore these action types
         ignoredActions: ['LOGIN_REQUEST', 'SIGNUP_REQUEST', 'LOGOUT_REQUEST', 'SEND_MESSAGE'],

@@ -1,6 +1,8 @@
-import React, { useState , useRef, useEffect} from 'react';
-import { View, Text, TextInput, FlatList, Button, StyleSheet, KeyboardAvoidingView } from 'react-native';
+import React, { useState , useRef, useEffect } from 'react';
+import { View, Text, TextInput, FlatList, Button, StyleSheet, Pressable, Image} from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
+import { LinearGradient } from 'expo-linear-gradient';
+
 
 const HomeScreen = () => {
   const [message, setMessage] = useState('');
@@ -35,7 +37,10 @@ const HomeScreen = () => {
 
   return (
     
-    <View style={styles.container}>
+    <LinearGradient
+      colors={['gray','black']}
+      style={styles.container}
+    >
       <FlatList
         ref={flatListRef}
         data={messages}
@@ -53,9 +58,16 @@ const HomeScreen = () => {
           placeholder="Type a message..."
           placeholderTextColor="white"
         />
-        <Button title="Send" onPress={handleSend} />
+        <Pressable onPress={handleSend} style={({ pressed }) => [styles.sendButton, pressed && styles.pressed]}>
+          <View style={styles.sendButtonContainer}>
+            <Image
+              source={require('../../assets/images/uparrow.png')}
+              style={styles.sendIcon}
+            />
+          </View>
+        </Pressable>
       </View>
-    </View>
+      </LinearGradient>
   );
 };
 
@@ -63,7 +75,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 10,
-    backgroundColor: 'rgb(33, 33, 33)'
+    
   },
   messagesList: {
     flex: 1,
@@ -95,16 +107,33 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     padding: 10,
     borderTopWidth: 1,
-    borderTopColor: '#ccc',
+    borderTopColor: 'white',
   },
   input: {
     flex: 1,
     marginRight: 10,
     padding: 10,
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: 'white',
     borderRadius: 20,
     color: 'white'
+  },
+  sendIcon: {
+    width: 25,
+    height: 30,
+    tintColor: 'white',
+    resizeMode: 'contain'
+  },
+  sendButtonContainer: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    backgroundColor: 'blue', 
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  pressed: {
+    opacity: 0.5
   },
 });
 

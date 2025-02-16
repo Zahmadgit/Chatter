@@ -12,10 +12,10 @@ const Stack = createStackNavigator();
 export default function Index() {
   return (
     <Provider store={store}>
-      <Stack.Navigator initialRouteName="LoginScreen">
-        <Stack.Screen name="LoginScreen" component={LoginScreen} options={{ title: "Login Screen" }} />
-        <Stack.Screen name="SignupScreen" component={SignupScreen} options={{ title: "Signup Screen" }} />
-        <Stack.Screen name="HomeScreen" component={HomeScreen} options={{ title: "Home Screen" }} />
+      <Stack.Navigator initialRouteName="LoginScreen" screenOptions={{headerShown: false}}>
+        <Stack.Screen name="LoginScreen" component={LoginScreen}/>
+        <Stack.Screen name="SignupScreen" component={SignupScreen}/>
+        <Stack.Screen name="HomeScreen" component={HomeScreen} />
       </Stack.Navigator>
       </Provider>
   );
