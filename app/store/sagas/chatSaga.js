@@ -32,7 +32,12 @@ function* watchChatMessages() {
       if (error) {
         yield put(setChatError(error.message));
       } else {
-        yield put(setMessages(messages));
+        // Convert Firestore timestamps to milliseconds
+        const serializedMessages = messages.map(msg => ({
+          ...msg,
+          timestamp: msg.timestamp ? msg.timestamp.toMillis() : null, 
+        }));
+        yield put(setMessages(serializedMessages));
       }
     }
   } finally {

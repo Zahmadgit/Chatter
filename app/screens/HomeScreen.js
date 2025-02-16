@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, FlatList, Button, StyleSheet } from 'react-native';
+import React, { useState , useRef, useEffect} from 'react';
+import { View, Text, TextInput, FlatList, Button, StyleSheet, KeyboardAvoidingView } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 
 const HomeScreen = () => {
@@ -7,6 +7,7 @@ const HomeScreen = () => {
   const dispatch = useDispatch();
   const { messages } = useSelector((state) => state.chat);
   const { user } = useSelector((state) => state.auth);
+  const flatListRef = useRef(null)
 
   const handleSend = () => {
     if (message.trim()) {
@@ -33,12 +34,16 @@ const HomeScreen = () => {
   );
 
   return (
+    
     <View style={styles.container}>
       <FlatList
+        ref={flatListRef}
         data={messages}
         renderItem={renderMessage}
         keyExtractor={(item) => item.id}
         style={styles.messagesList}
+        onContentSizeChange={() => flatListRef.current?.scrollToEnd({ animated: true })}
+        onLayout={() => flatListRef.current?.scrollToEnd({ animated: true })}
       />
       <View style={styles.inputContainer}>
         <TextInput
@@ -46,6 +51,7 @@ const HomeScreen = () => {
           value={message}
           onChangeText={setMessage}
           placeholder="Type a message..."
+          placeholderTextColor="white"
         />
         <Button title="Send" onPress={handleSend} />
       </View>
@@ -57,6 +63,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 10,
+    backgroundColor: 'rgb(33, 33, 33)'
   },
   messagesList: {
     flex: 1,
@@ -69,19 +76,20 @@ const styles = StyleSheet.create({
   },
   ownMessage: {
     alignSelf: 'flex-end',
-    backgroundColor: '#007AFF',
+    backgroundColor: 'rgb(48, 48, 48)',
   },
   otherMessage: {
     alignSelf: 'flex-start',
-    backgroundColor: '#E5E5EA',
+    backgroundColor: 'black',
   },
   messageEmail: {
     fontSize: 12,
-    color: '#666',
+    color: 'white',
     marginBottom: 2,
   },
   messageText: {
     fontSize: 16,
+    color: 'white'
   },
   inputContainer: {
     flexDirection: 'row',
@@ -96,6 +104,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#ccc',
     borderRadius: 20,
+    color: 'white'
   },
 });
 

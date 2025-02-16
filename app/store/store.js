@@ -16,7 +16,7 @@ const store = configureStore({
         // Ignore these field paths in all actions
         ignoredActionPaths: ['payload.timestamp'],
         // Ignore these paths in the state
-        ignoredPaths: ['chat.messages'],
+        ignoredPaths: ['chat.messages', 'auth.user'],
       },
     }).concat(sagaMiddleware),
 });

@@ -9,19 +9,22 @@ import {
   signOut
 } from 'firebase/auth';
 
-// Login saga
 function* handleLogin(action) {
   try {
     yield put(setLoading(true));
     yield put(setError(null));
     const { email, password } = action.payload;
-    const userCredential = yield call(
-      signInWithEmailAndPassword,
-      auth,
-      email,
-      password
-    );
-    yield put(setUser(userCredential.user));
+    const userCredential = yield call(signInWithEmailAndPassword, auth, email, password);
+    
+    // Extract only serializable data
+    const user = userCredential.user;
+    const serializedUser = {
+      uid: user.uid,
+      email: user.email,
+      displayName: user.displayName,
+    };
+
+    yield put(setUser(serializedUser));
   } catch (error) {
     yield put(setError(error.message));
   } finally {
@@ -29,25 +32,29 @@ function* handleLogin(action) {
   }
 }
 
-// Signup saga
 function* handleSignup(action) {
   try {
     yield put(setLoading(true));
     yield put(setError(null));
     const { email, password } = action.payload;
-    const userCredential = yield call(
-      createUserWithEmailAndPassword,
-      auth,
-      email,
-      password
-    );
-    yield put(setUser(userCredential.user));
+    const userCredential = yield call(createUserWithEmailAndPassword, auth, email, password);
+    
+    // Extract only serializable data
+    const user = userCredential.user;
+    const serializedUser = {
+      uid: user.uid,
+      email: user.email,
+      displayName: user.displayName,
+    };
+
+    yield put(setUser(serializedUser));
   } catch (error) {
     yield put(setError(error.message));
   } finally {
     yield put(setLoading(false));
   }
 }
+
 
 // Auth state listener
 function createAuthChannel() {
@@ -63,7 +70,16 @@ function* watchAuthState() {
   try {
     while (true) {
       const { user } = yield take(channel);
-      yield put(setUser(user));
+      if (user) {
+        const serializedUser = {
+          uid: user.uid,
+          email: user.email,
+          displayName: user.displayName,
+        };
+        yield put(setUser(serializedUser));
+      } else {
+        yield put(setUser(null));
+      }
     }
   } finally {
     channel.close();
