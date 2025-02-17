@@ -6,8 +6,10 @@ import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   onAuthStateChanged,
-  signOut
+  signOut,
+  sendPasswordResetEmail
 } from 'firebase/auth';
+import { Alert } from 'react-native';
 
 function* handleLogin(action) {
   try {
@@ -99,10 +101,28 @@ function* handleLogout() {
   }
 }
 
+
+//we frogot bruh
+function* handleForgotPassword(action){
+  try{
+    yield put(setLoading(true));
+    yield put(setError(null));
+
+    const {email} = action.payload;
+    yield call(sendPasswordResetEmail, auth, email);
+    Alert.alert("Success", "A password reset link was sent to the registered email, go reset it :D")
+  } catch (error){
+    yield put(setError(error.message));
+  } finally {
+    yield put(setLoading(false))
+  }
+}
+
 function* authSaga() {
   yield takeLatest('LOGIN_REQUEST', handleLogin);
   yield takeLatest('SIGNUP_REQUEST', handleSignup);
   yield takeLatest('LOGOUT_REQUEST', handleLogout);
+  yield takeLatest('FORGOT_PASSWORD_REQUEST', handleForgotPassword)
   yield fork(watchAuthState);
 }
 

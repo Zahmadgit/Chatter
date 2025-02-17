@@ -3,6 +3,7 @@ import { View, Text, TextInput, FlatList, Button, StyleSheet, Pressable, Image} 
 import { useSelector, useDispatch } from 'react-redux';
 import { LinearGradient } from 'expo-linear-gradient';
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useNavigation } from '@react-navigation/native';
 
 
 const HomeScreen = () => {
@@ -11,8 +12,19 @@ const HomeScreen = () => {
   const { messages } = useSelector((state) => state.chat);
   const { user } = useSelector((state) => state.auth);
   const flatListRef = useRef(null)
-
+  const navigation = useNavigation();
+  useEffect(() => {
+    if (user === null) {
+      navigation.reset({
+        index: 0,
+        routes: [{ name: "LoginScreen" }],
+      });
+    }
+  }, [user]);
+  
   const handleSend = () => {
+    if (!user) return; // Prevent sending messages if user is null
+  
     if (message.trim()) {
       dispatch({
         type: 'SEND_MESSAGE',
@@ -25,16 +37,21 @@ const HomeScreen = () => {
       setMessage('');
     }
   };
+  
 
-  const renderMessage = ({ item }) => (
-    <View style={[
-      styles.messageContainer,
-      item.userId === user.uid ? styles.ownMessage : styles.otherMessage
-    ]}>
-      <Text style={styles.messageEmail}>{item.userEmail}</Text>
-      <Text style={styles.messageText}>{item.text}</Text>
-    </View>
-  );
+  const renderMessage = ({ item }) => {
+    if (!user) return null; // Prevents error when rendering messages after logout
+  
+    return (
+      <View style={[
+        styles.messageContainer,
+        item.userId === user.uid ? styles.ownMessage : styles.otherMessage
+      ]}>
+        <Text style={styles.messageEmail}>{item.userEmail}</Text>
+        <Text style={styles.messageText}>{item.text}</Text>
+      </View>
+    );
+  };
 
   return (
     <SafeAreaView style={styles.safeContainer}>  
@@ -42,6 +59,11 @@ const HomeScreen = () => {
       colors={['gray','black']}
       style={styles.container}
     >
+     
+        <Pressable onPress={() => dispatch({ type: 'LOGOUT_REQUEST' })} style={styles.logoutButton}>
+          <Text style={styles.logoutText}>Logout</Text>
+        </Pressable>
+
       <FlatList
         ref={flatListRef}
         data={messages}
@@ -141,6 +163,32 @@ const styles = StyleSheet.create({
   pressed: {
     opacity: 0.5
   },
+
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 10,
+    
+  },
+  logoutButton: {
+    backgroundColor: 'red',
+    paddingVertical: 5,
+    paddingHorizontal: 15,
+    borderRadius: 5,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 10,
+    width: 100,
+    alignSelf: 'center'
+  },
+  logoutText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  
 });
 
 export default HomeScreen;

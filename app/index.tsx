@@ -7,6 +7,7 @@ import HomeScreen from './screens/HomeScreen'
 import { Provider } from 'react-redux';
 import store from './store/store'
 import { SafeAreaView } from 'react-native-safe-area-context';
+import ForgotPasswordScreen from './screens/ForgotPasswordScreen'
 
 const Stack = createStackNavigator();
 
@@ -17,6 +18,8 @@ export default function Index() {
         <Stack.Screen name="LoginScreen" component={LoginScreen}/>
         <Stack.Screen name="SignupScreen" component={SignupScreen}/>
         <Stack.Screen name="HomeScreen" component={HomeScreen} />
+        <Stack.Screen name="ForgotPasswordScreen" component={ForgotPasswordScreen} />
+
       </Stack.Navigator>
       </Provider>
   );

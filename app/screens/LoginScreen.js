@@ -75,6 +75,13 @@ const LoginScreen = ({ navigation }) => {
         >
           <Text style={styles.buttonText}>Sign Up</Text>
         </Pressable>
+
+
+        <Pressable onPress={() => navigation.navigate("ForgotPasswordScreen")}>
+          <Text style={{ color: 'white', textAlign: 'center', marginTop: 10 }}>
+            Forgot Password?
+          </Text>
+        </Pressable>
       </LinearGradient>
     </SafeAreaView>
   );
