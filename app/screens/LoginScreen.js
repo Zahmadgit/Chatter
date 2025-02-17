@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { View, Text, TextInput, Alert, StyleSheet, Pressable, Image } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { LinearGradient } from 'expo-linear-gradient';
-
+import { SafeAreaView } from "react-native-safe-area-context"; // Import SafeAreaView
 
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
@@ -30,55 +30,61 @@ const LoginScreen = ({ navigation }) => {
   };
 
   return (
-    <LinearGradient colors={['black', 'gray']} style={styles.container}>
-      <View style={styles.fronticon}>
-        <Image
-          source={require('../../assets/images/fronticon.png')}
+    <SafeAreaView style={styles.safeContainer}>  
+      <LinearGradient colors={['black', 'gray']} style={styles.container}>
+        <View style={styles.fronticon}>
+          <Image
+            source={require('../../assets/images/fronticon.png')}
+          />
+        </View>
+        <Text style={styles.title}>Welcome Back</Text>
+
+        <Text style={styles.label}>Email:</Text>
+        <TextInput
+          style={styles.input}
+          value={email}
+          onChangeText={setEmail}
+          autoCapitalize="none"
+          keyboardType="email-address"
+          placeholder="Enter your email"
+          placeholderTextColor="#bbb"
         />
-      </View>
-      <Text style={styles.title}>Welcome Back</Text>
 
-      <Text style={styles.label}>Email:</Text>
-      <TextInput
-        style={styles.input}
-        value={email}
-        onChangeText={setEmail}
-        autoCapitalize="none"
-        keyboardType="email-address"
-        placeholder="Enter your email"
-        placeholderTextColor="#bbb"
-      />
+        <Text style={styles.label}>Password:</Text>
+        <TextInput
+          style={styles.input}
+          secureTextEntry
+          value={password}
+          onChangeText={setPassword}
+          placeholder="Enter your password"
+          placeholderTextColor="#bbb"
+        />
 
-      <Text style={styles.label}>Password:</Text>
-      <TextInput
-        style={styles.input}
-        secureTextEntry
-        value={password}
-        onChangeText={setPassword}
-        placeholder="Enter your password"
-        placeholderTextColor="#bbb"
-      />
+        <Pressable 
+          onPress={handleLogin} 
+          style={({ pressed }) => [styles.button, pressed && styles.buttonPressed]}
+          disabled={loading}
+        >
+          <Text style={styles.buttonText}>{loading ? "Logging in..." : "Login"}</Text>
+        </Pressable>
 
-      <Pressable 
-        onPress={handleLogin} 
-        style={({ pressed }) => [styles.button, pressed && styles.buttonPressed]}
-        disabled={loading}
-      >
-        <Text style={styles.buttonText}>{loading ? "Logging in..." : "Login"}</Text>
-      </Pressable>
-
-      <Pressable 
-        onPress={() => navigation.navigate("SignupScreen")} 
-        style={({ pressed }) => [styles.signupButton, pressed && styles.buttonPressed]}
-        disabled={loading}
-      >
-        <Text style={styles.buttonText}>Sign Up</Text>
-      </Pressable>
-    </LinearGradient>
+        <Pressable 
+          onPress={() => navigation.navigate("SignupScreen")} 
+          style={({ pressed }) => [styles.signupButton, pressed && styles.buttonPressed]}
+          disabled={loading}
+        >
+          <Text style={styles.buttonText}>Sign Up</Text>
+        </Pressable>
+      </LinearGradient>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
+  safeContainer: {
+    flex: 1,
+    backgroundColor: "white", // Ensures background when gradient doesn't cover full height
+  },
   container: {
     flex: 1,
     padding: 20,
@@ -129,7 +135,8 @@ const styles = StyleSheet.create({
   },
   fronticon: {
     alignSelf: "center",
-  }
+    marginBottom: 20,
+  },
 });
 
 export default LoginScreen;

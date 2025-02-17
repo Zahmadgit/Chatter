@@ -2,6 +2,7 @@ import React, { useState , useRef, useEffect } from 'react';
 import { View, Text, TextInput, FlatList, Button, StyleSheet, Pressable, Image} from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { LinearGradient } from 'expo-linear-gradient';
+import { SafeAreaView } from "react-native-safe-area-context";
 
 
 const HomeScreen = () => {
@@ -36,7 +37,7 @@ const HomeScreen = () => {
   );
 
   return (
-    
+    <SafeAreaView style={styles.safeContainer}>  
     <LinearGradient
       colors={['gray','black']}
       style={styles.container}
@@ -68,10 +69,15 @@ const HomeScreen = () => {
         </Pressable>
       </View>
       </LinearGradient>
+    </SafeAreaView>  
   );
 };
 
 const styles = StyleSheet.create({
+  safeContainer: {
+    flex: 1,
+    backgroundColor: "white",
+  },
   container: {
     flex: 1,
     padding: 10,

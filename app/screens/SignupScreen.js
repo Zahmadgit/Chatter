@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { View, Text, TextInput, Alert, StyleSheet, Pressable} from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { LinearGradient } from 'expo-linear-gradient';
+import { SafeAreaView } from "react-native-safe-area-context";
 
 
 const SignupScreen = ({ navigation }) => {
@@ -30,6 +31,7 @@ const SignupScreen = ({ navigation }) => {
   };
 
   return (
+    <SafeAreaView style={styles.safeContainer}>  
     <LinearGradient colors={['black', 'gray']} style={styles.container}>
       <Text style={styles.title}>Create an Account</Text>
       <Text style={styles.label}>Email:</Text>
@@ -69,10 +71,15 @@ const SignupScreen = ({ navigation }) => {
         <Text style={styles.buttonText}>Back to Login</Text>
       </Pressable>
     </LinearGradient>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
+  safeContainer: {
+    flex: 1,
+    backgroundColor: "white",
+  },
   container: {
     flex: 1,
     padding: 20,
