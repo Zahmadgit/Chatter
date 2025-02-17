@@ -43,7 +43,10 @@ const ForgotPasswordScreen = ({ navigation }) => {
       </Pressable>
 
       <Pressable 
-        onPress={() => navigation.goBack()} 
+        onPress={() => navigation.reset({
+          index: 0,
+          routes: [{ name: "LoginScreen" }],
+        })} 
         style={({ pressed }) => [styles.backButton, pressed && styles.buttonPressed]}
       >
         <Text style={styles.buttonText}>Back to Login</Text>

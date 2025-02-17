@@ -15,6 +15,7 @@ const HomeScreen = () => {
   const navigation = useNavigation();
   useEffect(() => {
     if (user === null) {
+      //will reset the stack
       navigation.reset({
         index: 0,
         routes: [{ name: "LoginScreen" }],
