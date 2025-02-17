@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, TextInput, Button, Alert, StyleSheet } from "react-native";
+import { View, Text, TextInput, Alert, StyleSheet, Pressable} from "react-native";
 import { useDispatch, useSelector } from "react-redux";
+import { LinearGradient } from 'expo-linear-gradient';
+
 
 const SignupScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
@@ -28,7 +30,8 @@ const SignupScreen = ({ navigation }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <LinearGradient colors={['black', 'gray']} style={styles.container}>
+      <Text style={styles.title}>Create an Account</Text>
       <Text style={styles.label}>Email:</Text>
       <TextInput
         style={styles.input}
@@ -36,6 +39,8 @@ const SignupScreen = ({ navigation }) => {
         onChangeText={setEmail}
         autoCapitalize="none"
         keyboardType="email-address"
+        placeholder="Enter your email"
+        placeholderTextColor="#bbb"
       />
 
       <Text style={styles.label}>Password:</Text>
@@ -44,37 +49,77 @@ const SignupScreen = ({ navigation }) => {
         secureTextEntry
         value={password}
         onChangeText={setPassword}
+        placeholder="Enter your password"
+        placeholderTextColor="#bbb"
       />
 
-      <Button
-        title={loading ? "Signing up..." : "Sign Up"}
-        onPress={handleSignUp}
+      <Pressable 
+        onPress={handleSignUp} 
+        style={({ pressed }) => [styles.button, pressed && styles.buttonPressed]}
         disabled={loading}
-      />
-      <Button
-        title="Back to Login"
-        onPress={() => navigation.navigate("LoginScreen")}
+      >
+        <Text style={styles.buttonText}>{loading ? "Signing up..." : "Sign Up"}</Text>
+      </Pressable>
+
+      <Pressable 
+        onPress={() => navigation.navigate("LoginScreen")} 
+        style={({ pressed }) => [styles.backButton, pressed && styles.buttonPressed]}
         disabled={loading}
-      />
-    </View>
+      >
+        <Text style={styles.buttonText}>Back to Login</Text>
+      </Pressable>
+    </LinearGradient>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    padding: 20,
     flex: 1,
+    padding: 20,
+    justifyContent: "center"
+  },
+  title: {
+    fontSize: 28,
+    fontWeight: "bold",
+    color: "white",
+    textAlign: "center",
+    marginBottom: 30,
   },
   label: {
-    marginBottom: 5,
     fontSize: 16,
+    color: "white",
+    marginBottom: 5,
   },
   input: {
     borderWidth: 1,
-    borderColor: '#ccc',
-    padding: 10,
-    marginBottom: 20,
-    borderRadius: 5,
+    borderColor: "#555",
+    backgroundColor: "rgba(255, 255, 255, 0.1)",
+    padding: 12,
+    marginBottom: 15,
+    borderRadius: 8,
+    color: "white",
+  },
+  button: {
+    backgroundColor: "#007AFF",
+    padding: 15,
+    borderRadius: 8,
+    alignItems: "center",
+    marginTop: 10,
+  },
+  backButton: {
+    backgroundColor: "#6C757D",
+    padding: 15,
+    borderRadius: 8,
+    alignItems: "center",
+    marginTop: 10,
+  },
+  buttonPressed: {
+    opacity: 0.7,
+  },
+  buttonText: {
+    color: "white",
+    fontSize: 16,
+    fontWeight: "bold",
   },
 });
 

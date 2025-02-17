@@ -6,6 +6,7 @@ import SignupScreen from './screens/SignupScreen'; // Make sure your file path i
 import HomeScreen from './screens/HomeScreen'
 import { Provider } from 'react-redux';
 import store from './store/store'
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const Stack = createStackNavigator();
 
