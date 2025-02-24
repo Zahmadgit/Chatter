@@ -4,10 +4,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { LinearGradient } from 'expo-linear-gradient';
 import { SafeAreaView } from "react-native-safe-area-context";
 
-const ForgotPasswordScreen = ({ navigation }) => {
+interface ForgotPasswordProp{
+  navigation: any
+}
+
+
+const ForgotPasswordScreen: React.FC<ForgotPasswordProp>=({ navigation}) => {
   const [email, setEmail] = useState('');
   const dispatch = useDispatch();
-  const { loading } = useSelector((state) => state.auth);
+  const { loading } = useSelector((state: any) => state.auth);
 
   const handleResetPassword = () => {
     if (!email) {
