@@ -8,9 +8,8 @@ import { Provider } from 'react-redux';
 import store from './store/store'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import ForgotPasswordScreen from './screens/ForgotPasswordScreen'
-import type { RootStackParamList } from './types/navigation';
 
-const Stack = createStackNavigator<RootStackParamList>();
+const Stack = createStackNavigator();
 
 export default function Index() {
   return (

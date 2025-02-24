@@ -4,21 +4,15 @@ import { useSelector, useDispatch } from 'react-redux';
 import { LinearGradient } from 'expo-linear-gradient';
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
-import type { RootStackParamList } from '../types/navigation';
-import  { Message } from '../types/message'
 
 
-
-type NavigationProps = StackNavigationProp<RootStackParamList, "HomeScreen">
-
-const HomeScreen: React.FC = () => {
-  const [message, setMessage] = useState<string>('');
+const HomeScreen = () => {
+  const [message, setMessage] = useState('');
   const dispatch = useDispatch();
-  const { messages } = useSelector((state:any) => state.chat);
-  const { user } = useSelector((state:any) => state.auth);
-  const flatListRef = useRef<FlatList<Message>>(null)
-  const navigation = useNavigation<NavigationProps>();
+  const { messages } = useSelector((state) => state.chat);
+  const { user } = useSelector((state) => state.auth);
+  const flatListRef = useRef(null)
+  const navigation = useNavigation();
   useEffect(() => {
     if (user === null) {
       //will reset the stack
@@ -46,7 +40,7 @@ const HomeScreen: React.FC = () => {
   };
   
 
-  const renderMessage = ({ item }:{item: Message}) => {
+  const renderMessage = ({ item }) => {
     if (!user) return null; // Prevents error when rendering messages after logout
   
     return (
@@ -195,11 +189,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
-  sendButton:{
-    borderRadius: 25,
-    overflow: 'hidden',
-
-  }
   
 });
 

@@ -1,29 +1,8 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, Pressable, StyleSheet, Image, TouchableOpacity } from "react-native";
 
-interface EmailAndPasswordProps{
-    email: string;
-    password: string;
-    /*
-        No overload matches this call.
-        Overload 1 of 2, '(props: TextInputProps): TextInput', gave the following error.
-        Type 'string' is not assignable to type '(text: string) => void'.
-        Overload 2 of 2, '(props: TextInputProps, context: any): TextInput', gave the following error.
-        Type 'string' is not assignable to type '(text: string) => void'.ts(2769)
-        TextInput.d.ts(753, 3): The expected type comes from property 'onChangeText' which is declared here on type 'IntrinsicAttributes & IntrinsicClassAttributes<TextInput> & Readonly<TextInputProps>'
-        TextInput.d.ts(753, 3): The expected type comes from property 'onChangeText' which is declared here on type 'IntrinsicAttributes & IntrinsicClassAttributes<TextInput> & Readonly<TextInputProps>'
-    */
-    setEmail: (email: string) => void;
-    setPassword: (password: string) => void;
-    onSubmit: () => void;
-    buttonText: string;
-    loading: boolean
-
-}
-
-
-const EmailAndPassword: React.FC<EmailAndPasswordProps> = ({ email, password, setEmail, setPassword, onSubmit, buttonText, loading }) => {
-    const [showPassword, setShowPassword] = useState<boolean>(false);
+const EmailAndPassword = ({ email, password, setEmail, setPassword, onSubmit, buttonText, loading }) => {
+    const [showPassword, setShowPassword] = useState(false);
 
     const togglePasswordVisi = () => {
         setShowPassword((prevState) => !prevState);

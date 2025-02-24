@@ -6,15 +6,11 @@ import { SafeAreaView } from "react-native-safe-area-context"; // Import SafeAre
 import EmailAndPassword from "../components/EmailAndPassword"
 import { clearError } from "../store/reducers/authReducer";
 
-interface NavigationProps{
-  navigation: any
-}
-
-const LoginScreen: React.FC<NavigationProps> =({ navigation }) => {
+const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
-  const { error, loading, user } = useSelector((state : any) => state.auth);
+  const { error, loading, user } = useSelector((state) => state.auth);
 
   useEffect(() => {
     if (user) {
