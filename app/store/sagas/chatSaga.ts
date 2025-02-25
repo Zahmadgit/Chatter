@@ -26,10 +26,6 @@ function createChatChannel() {
     }, (error) => {
       emit({ error });
     });
-    while(true){
-      console.log("im listening")
-    }
-    
     return unsubscribe; 
     
   });
