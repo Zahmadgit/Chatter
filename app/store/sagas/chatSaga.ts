@@ -5,12 +5,14 @@ import { firestore } from '../../../firebase/firebaseConfig';
 import { setMessages, addMessage, setChatLoading, setChatError } from '../reducers/chatReducer';
 import {Message} from '../../types/message'
 import {FirestoreMessage} from '../../types/fireStoreMessage'
+import { useEffect } from 'react';
 
 
 
 
 
 function createChatChannel() {
+ 
   const messagesRef = collection(firestore, 'messages');
   const messagesQuery = query(messagesRef, orderBy('timestamp', 'asc'));
 
@@ -24,8 +26,12 @@ function createChatChannel() {
     }, (error) => {
       emit({ error });
     });
-
-    return unsubscribe;
+    while(true){
+      console.log("im listening")
+    }
+    
+    return unsubscribe; 
+    
   });
 }
 

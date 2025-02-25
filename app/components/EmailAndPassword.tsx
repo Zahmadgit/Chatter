@@ -52,7 +52,11 @@ const EmailAndPassword: React.FC<EmailAndPasswordProps> = ({ email, password, se
                     placeholder="Enter your password"
                     placeholderTextColor="#bbb"
                 />
-                <TouchableOpacity onPress={togglePasswordVisi} style={styles.eyeIcon}>
+                <TouchableOpacity 
+                    onPress={togglePasswordVisi} 
+                    style={styles.eyeIcon}
+                    testID="toggle-password-visibility"
+                >
                     <Image source={require('../../assets/images/eye.png')} style={styles.eyeImage} />
                 </TouchableOpacity>
             </View>
